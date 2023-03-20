@@ -6,6 +6,12 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
+
+	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	import { popup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
 </script>
 
 <!-- App Shell -->
@@ -20,7 +26,7 @@
 				<LightSwitch />
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href=""
+					href="/login"
 					rel="noreferrer"
 				>
 					Login
