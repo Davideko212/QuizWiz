@@ -27,7 +27,7 @@
 <main>
 	<div id="container">
         <div id="text">
-            <h1>Wählen Sie die Anzahl an Fragen aus:</h1>
+            <h2>Wählen Sie die Anzahl an Fragen aus:</h2>
         </div>
         <div id="slider">
             Anzahl: {value}
@@ -36,7 +36,7 @@
     </div>
     <div id="container">
         <div id="text">
-            <h1>Wählen Sie die Schwierigkeit der Fragen aus:</h1>
+            <h2>Wählen Sie die Schwierigkeit der Fragen aus:</h2>
         </div>
         <div id="star">
             Schwierigkeit: {diff}
@@ -46,7 +46,6 @@
 </main>
 
 <style>
-
 	main {
 		padding: 1em;
 		margin: 0 auto;
@@ -54,10 +53,6 @@
         flex-direction: column;
         align-items: center;
 	}
-
-    h1 {
-        font-size: 20px;
-    }
 
     #container {
         display: flex;

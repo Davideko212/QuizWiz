@@ -15,19 +15,18 @@
 			categories.push(data[key]);
 		});
 
-        console.log(categories);
         categories = categories;
 	});
 </script>
 
 <main>
 	<div id="text">
-        <h1>Wählen Sie mindestens eine Kategorie aus:</h1>
+        <h2>Wählen Sie mindestens eine Kategorie aus:</h2>
     </div>
     <div id="boxes">
         {#each categories as entry}
             <div id="entry">
-                <input type="checkbox">{entry}
+                <input type="checkbox" id={entry}><label for="{entry}">{entry}</label>
             </div>
         {/each}
     </div>
@@ -44,10 +43,6 @@
 
     input {
         margin: 0;
-    }
-
-    h1 {
-        font-size: 20px;
     }
 
     #boxes {
