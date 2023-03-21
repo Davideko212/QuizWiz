@@ -20,9 +20,9 @@
 	<img src="/QuizWiz.png">
 	<CategorySelect />
 	<QuestionSelect />
-	<button type="button" class="btn variant-filled">
-		Quiz Starten
-	</button>
+	<a class="btn variant-filled" href="/quiz">
+		Quiz starten
+	</a>
 	<button class="btn variant-filled" use:popup={examplePopup}>Trigger</button>
 	<div class="card p-4 w-72 shadow-xl" data-popup="examplePopup">
 		<div class="space-y-4">

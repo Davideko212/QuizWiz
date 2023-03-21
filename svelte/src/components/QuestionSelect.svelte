@@ -19,7 +19,6 @@
 			categories.push(data[key]);
 		});
 
-        console.log(categories);
         categories = categories;
 	});
 </script>
