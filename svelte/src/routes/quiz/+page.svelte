@@ -6,17 +6,7 @@
 	let questions = [];
 
 	onMount(async () => {
-		const res = await fetch(endpoint, {
-			method: 'GET'
-		});
-
-		const data = await res.json();
 		
-		Object.keys(data).forEach(function (key){
-			questions.push(data[key]);
-		});
-
-        questions = questions;
 	});
 </script>
 

@@ -6,6 +6,13 @@
 	import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
+	import { questions } from '../stores.js';
+
+	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
+	//let questions = [];
+	let categoriesSelected = {};
+	$: categoriesSelectReact = categoriesSelected;
+
 	let examplePopup: PopupSettings = {
 		// Set the event as: click | hover | hover-click
 		event: 'click',
@@ -14,13 +21,29 @@
 		placement: 'bottom'
 	};
 
+	async function fetchQuestions() {
+		const res = await fetch(endpoint, {
+			method: 'GET',
+			body: JSON.stringify({
+				
+			})
+		});
+
+		const data = await res.json();
+		
+		Object.keys(data).forEach(function (key){
+			questions.push(data[key]);
+		});
+
+        questions = questions;
+	}
 </script>
 
 <main>
 	<img src="/QuizWiz.png">
-	<CategorySelect />
+	<CategorySelect bind:categoriesSelected={categoriesSelected}/>
 	<QuestionSelect />
-	<a class="btn variant-filled" href="/quiz">
+	<a class="btn variant-filled" href="/quiz" on:click={fetchQuestions}>
 		Quiz starten
 	</a>
 	<button class="btn variant-filled" use:popup={examplePopup}>Trigger</button>

@@ -7,7 +7,11 @@
 
     // reads out the parameter(s) passed through the fetch body
     $json = file_get_contents('php://input');
-    //$data = json_decode($json)->select;
+    $data = json_decode($json);
+    $amount = $data->amount;
+    $categories = $data->categories;
+    $minDiff = $data->diff->min;
+    $maxDiff = $data->diff->max;
 
     $sql = "SELECT * FROM frage WHERE (Schwierigkeit BETWEEN 1 AND 10) AND (FK_KategorieID ) IN (1, 2, 3, 4)";
     $stmt = $db->prepare($sql);
