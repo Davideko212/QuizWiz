@@ -19,8 +19,6 @@
 
         categories = categories;
 	});
-
-    $: console.log(categoriesSelected);
 </script>
 
 <main>
@@ -30,7 +28,7 @@
     <div id="boxes">
         {#each categories as entry}
             <div id="entry">
-                <input type="checkbox" id={entry} bind:value={categoriesSelected[entry]}><label for="{entry}">{entry}</label>
+                <input type="checkbox" id={entry} bind:group={categoriesSelected} value={entry}><label for="{entry}">{entry}</label>
             </div>
         {/each}
     </div>

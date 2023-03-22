@@ -9,11 +9,10 @@
     $json = file_get_contents('php://input');
     $data = json_decode($json);
     $amount = $data->amount;
-    $categories = $data->categories;
-    $minDiff = $data->diff->min;
-    $maxDiff = $data->diff->max;
+    $categories = $data->categoriesSelected;
+    $diff = $data->diff;
 
-    $sql = "SELECT * FROM frage WHERE (Schwierigkeit BETWEEN 1 AND 10) AND (FK_KategorieID ) IN (1, 2, 3, 4)";
+    $sql = "SELECT * FROM frage WHERE (Schwierigkeit BETWEEN 0 AND " . $diff . ") AND (FK_KategorieID ) IN (1, 2, 3, 4)";
     $stmt = $db->prepare($sql);
     $stmt->execute();
 

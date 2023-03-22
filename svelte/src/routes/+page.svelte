@@ -7,11 +7,15 @@
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
 	import { questions } from '../stores.js';
+    import { writable } from "svelte/store";
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
 	//let questions = [];
-	let categoriesSelected = {};
-	$: categoriesSelectReact = categoriesSelected;
+	let categoriesSelected = [];
+	$: console.log(categoriesSelected);
+	let amount = 5;
+	let diff = 5;
+	let questionsValue;
 
 	let examplePopup: PopupSettings = {
 		// Set the event as: click | hover | hover-click
@@ -22,27 +26,38 @@
 	};
 
 	async function fetchQuestions() {
+		questions.set([]);
+
 		const res = await fetch(endpoint, {
-			method: 'GET',
+			method: 'POST',
 			body: JSON.stringify({
-				
+				categoriesSelected,
+				amount,
+				diff
 			})
 		});
 
 		const data = await res.json();
 		
 		Object.keys(data).forEach(function (key){
-			questions.push(data[key]);
+			//questions.push(data[key]);
+			questions.update(items => {
+				items.push(data[key]);
+				return items;
+			})
 		});
-
-        questions = questions;
 	}
+
+	questions.subscribe(value => {
+		questionsValue = value;
+		console.log(questionsValue);
+	});
 </script>
 
 <main>
 	<img src="/QuizWiz.png">
 	<CategorySelect bind:categoriesSelected={categoriesSelected}/>
-	<QuestionSelect />
+	<QuestionSelect bind:amount={amount} bind:diff={diff}/>
 	<a class="btn variant-filled" href="/quiz" on:click={fetchQuestions}>
 		Quiz starten
 	</a>
