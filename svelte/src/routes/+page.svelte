@@ -7,7 +7,6 @@
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
 	import { questions } from '../stores.js';
-    import { writable } from "svelte/store";
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
 	//let questions = [];
