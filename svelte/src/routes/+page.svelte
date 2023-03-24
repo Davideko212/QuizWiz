@@ -1,11 +1,10 @@
 <script lang="ts">
-
     import CategorySelect from "../components/CategorySelect.svelte";
     import QuestionSelect from "../components/QuestionSelect.svelte";
-
 	import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
-
+	import { toastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { questions } from '../stores.js';
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
@@ -15,6 +14,7 @@
 	let amount = 5;
 	let diff = 5;
 	let questionsValue;
+	let target = "/";
 
 	let examplePopup: PopupSettings = {
 		// Set the event as: click | hover | hover-click
@@ -22,6 +22,11 @@
 		// Provide a matching 'data-popup' value.
 		target: 'examplePopup',
 		placement: 'bottom'
+	};
+
+	const toast: ToastSettings = {
+		// maybe change this text later
+		message: '⚠️ Wählen Sie eine Kategorie aus! ⚠️',
 	};
 
 	async function fetchQuestions() {
@@ -45,11 +50,18 @@
 				return items;
 			})
 		});
+
+		if (questionsValue.length === 0) {
+			// If the quiz criteria result in finding no questions, show an error message
+			toastStore.trigger(toast);
+		} else {
+			// Send the user to the quiz page
+			target = "/quiz";
+		}
 	}
 
 	questions.subscribe(value => {
 		questionsValue = value;
-		console.log(questionsValue);
 	});
 </script>
 
@@ -57,7 +69,7 @@
 	<img src="/QuizWiz.png">
 	<CategorySelect bind:categoriesSelected={categoriesSelected}/>
 	<QuestionSelect bind:amount={amount} bind:diff={diff}/>
-	<a class="btn variant-filled" href="/quiz" on:click={fetchQuestions}>
+	<a class="btn variant-filled" on:click={fetchQuestions} href={target}>
 		Quiz starten
 	</a>
 	<button class="btn variant-filled" use:popup={examplePopup}>Trigger</button>

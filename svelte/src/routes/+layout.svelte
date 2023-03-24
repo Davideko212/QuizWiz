@@ -10,6 +10,8 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	import { Toast } from '@skeletonlabs/skeleton';
+	import { Modal } from '@skeletonlabs/skeleton';
 </script>
 
 <!-- App Shell -->
@@ -18,7 +20,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">QuizWiz</strong>
+				<a href="/"><img src="/QuizWiz.png" style="width: 120px;"></a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<LightSwitch />
@@ -34,3 +36,7 @@
 	<!-- Page Route Content -->
 	<slot />
 </AppShell>
+
+<!-- defining global (singleton) components-->
+<Toast />
+<Modal />
