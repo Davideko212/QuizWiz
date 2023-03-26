@@ -12,6 +12,17 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { Modal } from '@skeletonlabs/skeleton';
+    import { lightmode } from '../stores';
+
+	let lightmodeValue: boolean;
+	lightmode.subscribe(value => {
+		lightmodeValue = value;
+	});
+
+	function switchLight() {
+		lightmode.set(!lightmodeValue);
+		console.log(lightmodeValue);
+	}
 </script>
 
 <!-- App Shell -->
@@ -20,10 +31,18 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<a href="/"><img src="/QuizWiz.png" style="width: 120px;"></a>
+				<a href="/">
+					{#if lightmodeValue}
+						<img src="/QuizWiz.png" style="width: 120px;">
+					{:else}
+						<img src="/QuizWiz_dark.png" style="width: 120px;">
+					{/if}
+				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<LightSwitch />
+				<div id="switch" on:click={switchLight}>
+					<LightSwitch />
+				</div>
 				<a
 					class="btn btn-sm variant-ghost-surface"
 					href="/login"

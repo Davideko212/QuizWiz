@@ -4,7 +4,7 @@
 	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
 	import { questions } from '../../stores.js';
 
-	let questionsValue;
+	let questionsValue: Array<Object>;
 	questions.subscribe(value => {
 		questionsValue = value;
 	});

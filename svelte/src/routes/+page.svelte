@@ -5,11 +5,10 @@
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { toastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
-	import { questions } from '../stores.js';
+	import { questions, lightmode } from '../stores.js';
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
-	//let questions = [];
-	let categoriesSelected = [];
+	let categoriesSelected: Array<string> = [];
 	$: console.log(categoriesSelected);
 	let amount = 5;
 	let diff = 5;
@@ -63,10 +62,19 @@
 	questions.subscribe(value => {
 		questionsValue = value;
 	});
+
+	let lightmodeValue: boolean;
+	lightmode.subscribe(value => {
+		lightmodeValue = value;
+	});
 </script>
 
 <main>
-	<img src="/QuizWiz.png">
+	{#if lightmodeValue}
+		<img src="/QuizWiz.png">
+	{:else}
+		<img src="/QuizWiz_dark.png">
+	{/if}
 	<CategorySelect bind:categoriesSelected={categoriesSelected}/>
 	<QuestionSelect bind:amount={amount} bind:diff={diff}/>
 	<a class="btn variant-filled" on:click={fetchQuestions} href={target}>
