@@ -12,9 +12,9 @@
     $password = $data->password;
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO Benutzer (Benutzername, Passwort) VALUES (':u', ':p');";
+    $sql = "INSERT INTO Benutzer (Benutzername, Passwort) VALUES (:u, :p);";
+    $stmt = $db->prepare($sql);
     $stmt->bindValue(':u', $user, PDO::PARAM_STR);
     $stmt->bindValue(':p', $hashed_password, PDO::PARAM_STR);
-    $stmt = $db->prepare($sql);
     $stmt->execute();
 ?>

@@ -5,18 +5,20 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
-	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
 
+	import { AppShell, AppBar, LightSwitch, storePopup, Toast, Modal, Avatar } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-	import { Toast } from '@skeletonlabs/skeleton';
-	import { Modal } from '@skeletonlabs/skeleton';
-    import { lightmode } from '../stores';
+    import { lightmode, userID } from '../stores';
 
 	let lightmodeValue: boolean;
 	lightmode.subscribe(value => {
 		lightmodeValue = value;
+	});
+
+	let userIDValue: number;
+	userID.subscribe(value => {
+		userIDValue = value;
 	});
 
 	function switchLight() {
@@ -33,22 +35,31 @@
 			<svelte:fragment slot="lead">
 				<a href="/">
 					{#if lightmodeValue}
-						<img src="/QuizWiz.png" style="width: 120px;">
+						<img src="/QuizWiz.png" style="width: 140px;">
 					{:else}
-						<img src="/QuizWiz_dark.png" style="width: 120px;">
+						<img src="/QuizWiz_dark.png" style="width: 140px;">
 					{/if}
 				</a>
+				<div id="heightPad"></div>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div id="switch" on:click={switchLight}>
 					<LightSwitch />
 				</div>
-				<a
+				{#if userIDValue == 0}
+					<a
 					class="btn btn-sm variant-ghost-surface"
 					href="/login"
-				>
-					Login
-				</a>
+					>
+						Login
+					</a>
+				{:else}
+					<Avatar
+						border="border-4 border-surface-300-600-token hover:!border-primary-500"
+						cursor="cursor-pointer"
+						width="w-10"
+					/>
+				{/if}
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
@@ -59,3 +70,9 @@
 <!-- defining global (singleton) components-->
 <Toast />
 <Modal />
+
+<style>
+	#heightPad {
+		min-height: 40px;
+	}
+</style>

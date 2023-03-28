@@ -1,13 +1,58 @@
 <script lang="ts">
+	import { toastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
+	import { userID } from '../../stores.js';
+
 	let user: string;
 	let password: string;
 	let passwordConfirm: string;
-	let register: boolean = false;;
+	let register: boolean = false;
+	const loginEndpoint = "http://localhost/QuizWiz/backend/login.php";
+	const registerEndpoint = "http://localhost/QuizWiz/backend/register.php";
 
-	function login() {
-		console.log("logging in");
+	const toast: ToastSettings = {
+		message: "",
+	};
 
+	async function login() {
+		let endpoint;
+		if (register) {
+			endpoint = registerEndpoint;
 
+			if (!(password === passwordConfirm)) {
+				toast.message = "⚠️ Die angegebenen Passwörter stimmen nicht überein! ⚠️";
+				toastStore.trigger(toast);
+				return;
+			}
+		} else {
+			endpoint = loginEndpoint;
+		}
+
+		const res = await fetch(endpoint, {
+			method: 'POST',
+			body: JSON.stringify({
+				user,
+				password
+			})
+		});
+
+		const data = await res.json();
+		console.log(data);
+
+		if (!register) {
+			if (data > 0) {
+				// user found, correct pw
+				toast.message = "✔️ Erfolgreich eingeloggt! ✔️";
+				userID.set(data);
+			} else if (data === 0) {
+				// user not found
+				toast.message = "⚠️ Benutzer gibt es nicht! Haben Sie sich schon registriert? ⚠️";
+			} else {
+				// user found, incorrect pw
+				toast.message = "⚠️ Falsches Passwort! ⚠️";
+			}
+			toastStore.trigger(toast);
+		}
 	}
 
 	function switchRegister() {
