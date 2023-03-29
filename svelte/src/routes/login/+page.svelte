@@ -36,10 +36,9 @@
 			})
 		});
 
-		const data = await res.json();
-		console.log(data);
-
 		if (!register) {
+			const data = await res.json();
+
 			if (data > 0) {
 				// user found, correct pw
 				toast.message = "✔️ Erfolgreich eingeloggt! ✔️";

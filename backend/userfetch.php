@@ -8,13 +8,14 @@
     // reads out the parameter(s) passed through the fetch body
     $json = file_get_contents('php://input');
     $data = json_decode($json);
-    $user = $data->user;
-    $password = $data->password;
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $userID = $data->userIDValue;
 
-    $sql = "INSERT INTO benutzer (Benutzername, Passwort) VALUES (:u, :p)";
+    $sql = "SELECT * FROM benutzer WHERE PK_BenutzerID = :id";
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':u', $user, PDO::PARAM_STR);
-    $stmt->bindValue(':p', $hashed_password, PDO::PARAM_STR);
+    $stmt->bindValue(':id', $userID, PDO::PARAM_STR);
     $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+    echo json_encode($row);
 ?>
