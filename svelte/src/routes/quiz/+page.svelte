@@ -16,7 +16,11 @@
 		type: 'confirm',
 		title: 'Quiz beenden',
 		body: 'Wollen Sie das Quiz beenden und Ihre Antworten abschicken?',
-		response: (r: boolean) => console.log('response:', r),
+		response: (r: boolean) => {
+			if (r) {
+				window.location.href = "quiz/score";
+			}
+		},
 	};
 
 	function onChange(PK_FrageId, FK_AntwortID) {
