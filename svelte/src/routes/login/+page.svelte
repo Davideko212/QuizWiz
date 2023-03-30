@@ -36,8 +36,8 @@
 			})
 		});
 
+		const data = await res.json();
 		if (!register) {
-			const data = await res.json();
 
 			if (data > 0) {
 				// user found, correct pw
@@ -50,8 +50,15 @@
 				// user found, incorrect pw
 				toast.message = "⚠️ Falsches Passwort! ⚠️";
 			}
-			toastStore.trigger(toast);
+		} else {
+			if (data < 0) {
+				toast.message = "⚠️ Registrierung fehlgeschlagen, Benutzername ist bereits vergeben! ⚠️";
+			} else {
+				toast.message = "✔️ Erfolgreich registriert! ✔️";
+			}
 		}
+
+		toastStore.trigger(toast);
 	}
 
 	function switchRegister() {

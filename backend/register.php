@@ -12,9 +12,19 @@
     $password = $data->password;
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO benutzer (Benutzername, Passwort) VALUES (:u, :p)";
-    $stmt = $db->prepare($sql);
+    $check = "SELECT * FROM benutzer WHERE Benutzername LIKE :u";
+    $stmt = $db->prepare($check);
     $stmt->bindValue(':u', $user, PDO::PARAM_STR);
-    $stmt->bindValue(':p', $hashed_password, PDO::PARAM_STR);
     $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(-1);
+    } else {
+        $sql = "INSERT INTO benutzer (Benutzername, Passwort) VALUES (:u, :p)";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':u', $user, PDO::PARAM_STR);
+        $stmt->bindValue(':p', $hashed_password, PDO::PARAM_STR);
+        $stmt->execute();
+        echo json_encode(0);
+    }
 ?>
