@@ -5,12 +5,12 @@
 	import { questions, answers } from '../../stores.js';
 	import { onMount } from 'svelte';
 
-	let questionsValue: Array<Object>;
-	questions.subscribe(value => {
-		questionsValue = value;
+	$: console.log($answers);
+	$questions.forEach(question => {
+		if ($answers[question.PK_FrageId] == undefined) {
+			$answers[question.PK_FrageId] = -1;
+		}
 	});
-
-	//questionsValue.forEach(question => $answers[question.PK_FrageId] = -1);
 
 	const modal: ModalSettings = {
 		type: 'confirm',
@@ -18,7 +18,6 @@
 		body: 'Wollen Sie das Quiz beenden und Ihre Antworten abschicken?',
 		response: (r: boolean) => {
 			if (r) {
-				$answers = {};
 				window.location.href = "quiz/score";
 			}
 		},
@@ -26,6 +25,17 @@
 
 	function onChange(PK_FrageId, FK_AntwortID) {
 		$answers[PK_FrageId] = FK_AntwortID;
+	}
+
+	function getType(q) {
+		let type = q.Antworttyp;
+
+		switch (type) {
+			case 0:
+				return "radio";
+			case 1:
+				return "checkbox";
+		}
 	}
 
 	function finishModal() {
@@ -38,13 +48,17 @@
 
 	<div id="stepper">
 		<Stepper on:complete={finishModal}>
-			{#each questionsValue as q}
+			{#each $questions as q}
 				<Step>
 					<svelte:fragment slot="header">{q.Fragestellung}</svelte:fragment>
 					{#each q[0] as answer}
 						<div id="answer">
 							<!-- i mean it works -->
-							<input type="radio" name={q.PK_FrageId} checked={$answers[q.PK_FrageId] === answer.FK_AntwortID} value={answer.FK_AntwortID} on:change={onChange(q.PK_FrageId, answer.FK_AntwortID)}>
+							<input
+								type={getType(q)}
+								name={q.PK_FrageId} checked={$answers[q.PK_FrageId] === answer.FK_AntwortID} value={answer.FK_AntwortID} 
+								on:change={onChange(q.PK_FrageId, answer.FK_AntwortID)}
+							>
 							<label for={answer.FK_AntwortID}>{answer.Antwortmoeglichkeit}</label>
 						</div>
 					{/each}

@@ -7,19 +7,29 @@
 
     $json = file_get_contents('php://input');
     $data = json_decode($json);
-    $amount = $data->amount;
-    $categories = $data->categoriesSelected;
-    $diff = $data->diff;
+    $answers = $data->answerAAA;
+    $array = get_object_vars($answers);
+    $questions = array_keys($array);
 
-    $sql = "SELECT DISTINCT KategorienName FROM frage JOIN kategorie k on k.PK_KategorieId = frage.FK_KategorieID";
+    $sql = "SELECT FK_FrageID, FK_AntwortID FROM antwortzuordnung WHERE Richtig = TRUE AND FK_FrageID IN ('" . implode("', '", $questions) . "')";
     $stmt = $db->prepare($sql);
     $stmt->execute();
 
-    $arr = [];
+    // 0 -> correct
+    // 1 -> wrong
+    // 2 -> unanswered
+    $arr = [0, 0, 0];
 
-    if ($stmt->rowCount() > 0) {
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($arr, implode($row));
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $temp = (string)$row["FK_FrageID"];
+        $answer = $answers->$temp;
+
+        if ($answer == $row["FK_AntwortID"]) {
+            $arr[0]++;
+        } else if ($answer == -1) {
+            $arr[2]++;
+        } else {
+            $arr[1]++;
         }
     }
 
