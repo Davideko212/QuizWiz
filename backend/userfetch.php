@@ -10,7 +10,7 @@
     $data = json_decode($json);
     $userID = $data->userIDValue;
 
-    $sql = "SELECT * FROM benutzer WHERE PK_BenutzerID = :id";
+    $sql = "SELECT Anmeldedatum, Benutzername, QuizCount FROM benutzer WHERE PK_BenutzerID = :id";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':id', $userID, PDO::PARAM_STR);
     $stmt->execute();

@@ -7,6 +7,7 @@
 	let password: string;
 	let passwordConfirm: string;
 	let register: boolean = false;
+	let date: string = new Date().toISOString().slice(0, 10).replace('T', ' ');
 	const loginEndpoint = "http://localhost/QuizWiz/backend/login.php";
 	const registerEndpoint = "http://localhost/QuizWiz/backend/register.php";
 
@@ -32,7 +33,8 @@
 			method: 'POST',
 			body: JSON.stringify({
 				user,
-				password
+				password,
+				date
 			})
 		});
 

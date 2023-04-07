@@ -6,6 +6,8 @@
 	import { onMount } from 'svelte';
 
 	$: console.log($answers);
+	console.log("meow");
+	$: console.log($questions);
 	$questions.forEach(question => {
 		if ($answers[question.PK_FrageId] == undefined) {
 			$answers[question.PK_FrageId] = -1;

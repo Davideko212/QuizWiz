@@ -8,7 +8,7 @@ export const lightmode = writable(true);
 // 0 means no user is logged on
 export const userID = writable(0);
 
-if (typeof localStorage !== 'undefined') {
+if (typeof localStorage != 'undefined') {
     const questionsStore = localStorage.getItem("questions");
     if (!(questionsStore == null || questionsStore === "undefined")) {
         questions.set(JSON.parse(questionsStore));

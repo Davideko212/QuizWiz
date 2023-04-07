@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { ConicGradient, dataTableHandler } from '@skeletonlabs/skeleton';
 	import type { ConicStop } from '@skeletonlabs/skeleton';
-	import { answers } from '../../../stores.js';
+	import { answers, questions } from '../../../stores.js';
     import { onMount } from 'svelte';
 
 	const endpoint = "http://localhost/QuizWiz/backend/score.php";
 
-	let answerAAA;
+	let answersValue;
 	answers.subscribe(value => {
-		answerAAA = value;
+		answersValue = value;
 	})
 	let conicStops: ConicStop[];
 
@@ -21,7 +21,7 @@
 				'Accept': 'application/json',
 			},
 			body: JSON.stringify({
-				answerAAA
+				answersValue
 			})
 		});
 
@@ -37,7 +37,10 @@
 			{ color: 'rgba(179, 179, 179, 1)', start: ((data[0]/amount)*100 + (data[1]/amount)*100), end: ((data[0]/amount)*100 + (data[1]/amount)*100 + (data[2]/amount)*100) }
 		];
 
+		console.log(answersValue);
+
 		answers.set({});
+		questions.set([]);
 	})
 </script>
 

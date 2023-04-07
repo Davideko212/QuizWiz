@@ -11,6 +11,7 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
     import { lightmode, userID } from '../stores';
+    import ProfilePopup from '../components/ProfilePopup.svelte';
 
 	let examplePopup: PopupSettings = {
 		// Set the event as: click | hover | hover-click
@@ -18,23 +19,6 @@
 		// Provide a matching 'data-popup' value.
 		target: 'examplePopup',
 		placement: 'bottom'
-	};
-
-	const toast: ToastSettings = {
-		// maybe change this text later
-		message: '👋 Erfolgreich Abgemeldet! 👋',
-	};
-
-	const modal: ModalSettings = {
-		type: 'confirm',
-		title: 'Abmelden',
-		body: 'Möchten Sie sich wirklich abmelden?',
-		response: (r: boolean) => {
-			if (r) {
-				userID.set(0);
-				toastStore.trigger(toast);
-			}
-		}
 	};
 
 	let lightmodeValue: boolean;
@@ -50,10 +34,6 @@
 	function switchLight() {
 		lightmode.set(!lightmodeValue);
 		console.log(lightmodeValue);
-	}
-
-	function logoutModal() {
-		modalStore.trigger(modal);
 	}
 </script>
 
@@ -92,8 +72,7 @@
 						/>
 					</div>
 					<div class="card p-4 w-72 shadow-xl" data-popup="examplePopup">
-						<p>{userIDValue}</p>
-						<button type="button" class="btn btn-sm variant-ghost-surface" on:click={logoutModal}>Abmelden</button>
+						<ProfilePopup />
 					</div>
 				{/if}
 			</svelte:fragment>

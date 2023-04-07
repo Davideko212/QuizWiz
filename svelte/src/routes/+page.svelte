@@ -1,31 +1,58 @@
 <script lang="ts">
     import CategorySelect from "../components/CategorySelect.svelte";
     import QuestionSelect from "../components/QuestionSelect.svelte";
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
-	import { toastStore } from '@skeletonlabs/skeleton';
+	import { modalStore, toastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
-	import { questions, lightmode } from '../stores.js';
+	import { questions, lightmode, answers } from '../stores.js';
+    import { construct_svelte_component } from "svelte/internal";
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
 	let categoriesSelected: Array<string> = [];
-	$: console.log(categoriesSelected);
 	let amount = 5;
 	let diff = 5;
-	let questionsValue;
 	let target = "/";
+	let data;
 
-	let examplePopup: PopupSettings = {
-		// Set the event as: click | hover | hover-click
-		event: 'click',
-		// Provide a matching 'data-popup' value.
-		target: 'examplePopup',
-		placement: 'bottom'
-	};
+	let questionsValue;
+	questions.subscribe(value => {
+		questionsValue = value;
+	})
 
 	const toast: ToastSettings = {
 		// maybe change this text later
 		message: '⚠️ Wählen Sie eine Kategorie aus! ⚠️',
+	};
+
+	const startModal: ModalSettings = {
+		type: 'confirm',
+		title: 'Quiz starten',
+		body: 'Möchten Sie das Quiz wirklich starten?',
+		response: (r: boolean) => {
+			if (r) {
+				while (questionsValue.length != amount) {
+					let temp = randomProperty(data);
+					console.log(temp);
+					questionsValue.push(temp);
+					data.pop(temp);
+				}
+
+				questions.set(questionsValue);
+
+				window.location.href = "/quiz";
+			}
+		}
+	};
+
+	const deleteModal: ModalSettings = {
+		type: 'confirm',
+		title: 'Quiz abbrechen',
+		body: 'Möchten Sie wirklich das derzeit aktive Quiz abbrechen?',
+		response: (r: boolean) => {
+			if (r) {
+				questions.set([]);
+				answers.set({});
+			}
+		}
 	};
 
 	async function fetchQuestions() {
@@ -40,46 +67,54 @@
 			})
 		});
 
-		const data = await res.json();
-		
-		Object.keys(data).forEach(function (key){
-			//questions.push(data[key]);
-			questions.update(items => {
-				items.push(data[key]);
-				return items;
-			})
-		});
+		data = await res.json();
 
-		if (questionsValue.length === 0) {
+		if (data.length === 0) {
 			// If the quiz criteria result in finding no questions, show an error message
 			toastStore.trigger(toast);
-		} else {
-			// Send the user to the quiz page
-			target = "/quiz";
+		} else if (data.length < amount) {
+			// tell the user that the chosen amount could not be fulfilled
+			// TODO
+			//$questions = data;
 		}
 	}
 
-	questions.subscribe(value => {
-		questionsValue = value;
-	});
+	function randomProperty(obj: Object) {
+		let keys = Object.keys(obj);
+		return obj[keys[ keys.length * Math.random() << 0]];
+	}
 
-	let lightmodeValue: boolean;
-	lightmode.subscribe(value => {
-		lightmodeValue = value;
-	});
+	function quiz() {
+		fetchQuestions();
+		modalStore.trigger(startModal);
+	}
+
+	function deleteQuiz() {
+		modalStore.trigger(deleteModal);
+	}
 </script>
 
 <main>
-	{#if lightmodeValue}
+	{#if $lightmode}
 		<img src="/QuizWiz.png">
 	{:else}
 		<img src="/QuizWiz_dark.png">
 	{/if}
-	<CategorySelect bind:categoriesSelected={categoriesSelected}/>
-	<QuestionSelect bind:amount={amount} bind:diff={diff}/>
-	<a class="btn variant-filled" on:click={fetchQuestions} href={target}>
-		Quiz starten
-	</a>
+	{#if questionsValue.length > 0}
+		<h3>Es wurde ein bereits aktives Quiz auf Ihrem Gerät festgestellt:</h3>
+		<a class="btn variant-filled" href="/quiz">
+			Zurück zum Quiz
+		</a>
+		<a class="btn variant-filled" on:click={deleteQuiz}>
+			Quiz abbrechen
+		</a>
+	{:else}
+		<CategorySelect bind:categoriesSelected={categoriesSelected}/>
+		<QuestionSelect bind:amount={amount} bind:diff={diff}/>
+		<a class="btn variant-filled" on:click={quiz}>
+			Quiz starten
+		</a>
+	{/if}
 </main>
 
 <style>

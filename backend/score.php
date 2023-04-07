@@ -7,7 +7,7 @@
 
     $json = file_get_contents('php://input');
     $data = json_decode($json);
-    $answers = $data->answerAAA;
+    $answers = $data->answersValue;
     $array = get_object_vars($answers);
     $questions = array_keys($array);
 
