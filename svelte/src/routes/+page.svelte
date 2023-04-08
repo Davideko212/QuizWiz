@@ -4,7 +4,6 @@
 	import { modalStore, toastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { questions, lightmode, answers } from '../stores.js';
-    import { construct_svelte_component } from "svelte/internal";
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
 	let categoriesSelected: Array<string> = [];
@@ -31,16 +30,22 @@
 			if (r) {
 				while (questionsValue.length != amount) {
 					let temp = randomProperty(data);
-					console.log(temp);
 					questionsValue.push(temp);
-					data.pop(temp);
+					delete data.temp;
 				}
 
 				questions.set(questionsValue);
 
-				window.location.href = "/quiz";
+				window.location.href = "http://localhost/QuizWiz/svelte/build/quiz.html";
 			}
 		}
+	};
+
+	const partialModal: ModalSettings = {
+		type: 'alert',
+		title: 'Achtung',
+		body: " ACHTUNG: ".bold() +
+				"Es konnte nicht die gewünschte Anzahl an Fragen gefunden werden, ihre Quiz-Parameter sind wahrscheinlich zu spezifisch. "
 	};
 
 	const deleteModal: ModalSettings = {
@@ -74,8 +79,14 @@
 			toastStore.trigger(toast);
 		} else if (data.length < amount) {
 			// tell the user that the chosen amount could not be fulfilled
-			// TODO
-			//$questions = data;
+			let orig = partialModal.body;
+			partialModal.body += (data.length + "/" + amount + " Fragen gefunden.").bold();
+			modalStore.trigger(partialModal);
+			setTimeout(function(){
+				partialModal.body = orig;
+			}, 100); 
+		} else {
+			modalStore.trigger(startModal);
 		}
 	}
 
@@ -84,37 +95,32 @@
 		return obj[keys[ keys.length * Math.random() << 0]];
 	}
 
-	function quiz() {
-		fetchQuestions();
-		modalStore.trigger(startModal);
-	}
-
 	function deleteQuiz() {
 		modalStore.trigger(deleteModal);
 	}
 </script>
 
 <main>
-	{#if $lightmode}
-		<img src="/QuizWiz.png">
-	{:else}
-		<img src="/QuizWiz_dark.png">
-	{/if}
-	{#if questionsValue.length > 0}
-		<h3>Es wurde ein bereits aktives Quiz auf Ihrem Gerät festgestellt:</h3>
-		<a class="btn variant-filled" href="/quiz">
-			Zurück zum Quiz
-		</a>
-		<a class="btn variant-filled" on:click={deleteQuiz}>
-			Quiz abbrechen
-		</a>
-	{:else}
-		<CategorySelect bind:categoriesSelected={categoriesSelected}/>
-		<QuestionSelect bind:amount={amount} bind:diff={diff}/>
-		<a class="btn variant-filled" on:click={quiz}>
-			Quiz starten
-		</a>
-	{/if}
+		{#if $lightmode}
+			<img src="http://localhost/QuizWiz/svelte/build/QuizWiz.png">
+		{:else}
+			<img src="http://localhost/QuizWiz/svelte/build/QuizWiz_dark.png">
+		{/if}
+		{#if questionsValue.length > 0}
+			<h3>Es wurde ein bereits aktives Quiz auf Ihrem Gerät festgestellt:</h3>
+			<a class="btn variant-filled" href="http://localhost/QuizWiz/svelte/build/quiz.html">
+				Zurück zum Quiz
+			</a>
+			<button class="btn variant-filled" on:click={deleteQuiz}>
+				Quiz abbrechen
+			</button>
+		{:else}
+			<CategorySelect bind:categoriesSelected={categoriesSelected}/>
+			<QuestionSelect bind:amount={amount} bind:diff={diff}/>
+			<button class="btn variant-filled" on:click={fetchQuestions}>
+				Quiz starten
+			</button>
+		{/if}
 </main>
 
 <style>
@@ -124,9 +130,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
 	}
 
 	img {
-		width: 40%;
+		width: 60%;
 	}
 </style>

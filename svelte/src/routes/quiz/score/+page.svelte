@@ -71,7 +71,7 @@
 		<p>ABCDEF</p>
 	</div>
 
-	<a class="btn variant-filled" href="../..">
+	<a class="btn variant-filled" href="./../">
 		Zurück zum Hauptmenü
 	</a>
 </main>

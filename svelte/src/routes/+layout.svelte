@@ -43,11 +43,11 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<a href="/">
+				<a href="http://localhost/QuizWiz/svelte/build/">
 					{#if lightmodeValue}
-						<img src="/QuizWiz.png" style="width: 140px;">
+						<img src="http://localhost/QuizWiz/svelte/build/QuizWiz.png" style="width: 140px;">
 					{:else}
-						<img src="/QuizWiz_dark.png" style="width: 140px;">
+						<img src="http://localhost/QuizWiz/svelte/build/QuizWiz_dark.png" style="width: 140px;">
 					{/if}
 				</a>
 				<div id="heightPad"></div>
@@ -59,7 +59,7 @@
 				{#if userIDValue == 0}
 					<a
 						class="btn btn-sm variant-ghost-surface"
-						href="/login"
+						href="http://localhost/QuizWiz/svelte/build/login.html"
 					>
 						Login
 					</a>
@@ -69,6 +69,7 @@
 							border="border-4 border-surface-300-600-token hover:!border-primary-500"
 							cursor="cursor-pointer"
 							width="w-10"
+							initials="👤"
 						/>
 					</div>
 					<div class="card p-4 w-72 shadow-xl" data-popup="examplePopup">

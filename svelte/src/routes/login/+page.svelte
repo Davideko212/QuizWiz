@@ -69,7 +69,11 @@
 </script>
 
 <main>
-	<h1>LOGIN</h1>
+	{#if register}
+		<h1>REGISTER</h1>
+	{:else}
+		<h1>LOGIN</h1>
+	{/if}
 	<div id="input">
 		<label for="user">Benutzername:</label>
 		<input type="text" id="user" placeholder="Benutzername" bind:value={user} />

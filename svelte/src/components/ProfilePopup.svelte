@@ -52,9 +52,11 @@
 </script>
 
 <main>
-	<p>{name}</p>
-    <p>Registriert seit: {date}</p>
-    <p>Anzahl bestandener Quizzes: {count}</p>
+	<h3>{name}</h3>
+	<div id="text">
+		<p>Registriert seit: {date}</p>
+		<p>Anzahl bestandener Quizzes: {count}</p>
+	</div>
 	<button type="button" class="btn btn-sm variant-ghost-surface" on:click={logoutModal}>Abmelden</button>
 </main>
 
@@ -65,5 +67,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+		gap: 10px;
 	}
 </style>

@@ -13,7 +13,7 @@
         </div>
         <div id="slider">
             Anzahl: {amount}
-            <Slider bind:value={amount} min={1} max={10} />
+            <Slider bind:value={amount} min={2} max={10} />
         </div>
     </div>
     <div id="container">
@@ -34,6 +34,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 40px;
 	}
 
     #container {
@@ -41,6 +42,4 @@
         flex-direction: column;
         align-items: center;
     }
-
-
 </style>
