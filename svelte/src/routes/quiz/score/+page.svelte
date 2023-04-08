@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ConicGradient, dataTableHandler } from '@skeletonlabs/skeleton';
 	import type { ConicStop } from '@skeletonlabs/skeleton';
-	import { answers, questions } from '../../../stores.js';
+	import { answers, questions } from '../../../stores';
     import { onMount } from 'svelte';
 
 	const endpoint = "http://localhost/QuizWiz/backend/score.php";

@@ -21,19 +21,8 @@
 		placement: 'bottom'
 	};
 
-	let lightmodeValue: boolean;
-	lightmode.subscribe(value => {
-		lightmodeValue = value;
-	});
-
-	let userIDValue: number;
-	userID.subscribe(value => {
-		userIDValue = value;
-	});
-
 	function switchLight() {
-		lightmode.set(!lightmodeValue);
-		console.log(lightmodeValue);
+		lightmode.set(!$lightmode);
 	}
 </script>
 
@@ -44,7 +33,7 @@
 		<AppBar>
 			<svelte:fragment slot="lead">
 				<a href="http://localhost/QuizWiz/svelte/build/">
-					{#if lightmodeValue}
+					{#if $lightmode}
 						<img src="http://localhost/QuizWiz/svelte/build/QuizWiz.png" style="width: 140px;">
 					{:else}
 						<img src="http://localhost/QuizWiz/svelte/build/QuizWiz_dark.png" style="width: 140px;">
@@ -56,7 +45,7 @@
 				<div id="switch" on:click={switchLight}>
 					<LightSwitch />
 				</div>
-				{#if userIDValue == 0}
+				{#if $userID == 0}
 					<a
 						class="btn btn-sm variant-ghost-surface"
 						href="http://localhost/QuizWiz/svelte/build/login.html"

@@ -2,8 +2,8 @@
     import CategorySelect from "../components/CategorySelect.svelte";
     import QuestionSelect from "../components/QuestionSelect.svelte";
 	import { modalStore, toastStore } from '@skeletonlabs/skeleton';
-	import type { ToastSettings } from '@skeletonlabs/skeleton';
-	import { questions, lightmode, answers } from '../stores.js';
+	import type { ToastSettings, ModalSettings } from '@skeletonlabs/skeleton';
+	import { questions, lightmode, answers } from '../stores';
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
 	let categoriesSelected: Array<string> = [];

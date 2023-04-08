@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
 	import { modalStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
-	import { questions, answers, userID } from '../../stores.js';
-	import { onMount } from 'svelte';
+	import type { ModalSettings } from '@skeletonlabs/skeleton';
+	import { questions, answers, userID } from '../../stores';
 
-	$: console.log($answers);
-	console.log("meow");
-	$: console.log($questions);
 	$questions.forEach(question => {
 		if ($answers[question.PK_FrageId] == undefined) {
 			$answers[question.PK_FrageId] = -1;
@@ -15,7 +11,7 @@
 	});
 
 	const endpoint = "http://localhost/QuizWiz/backend/quizcount.php";
-	let userIDValue;
+	let userIDValue: number;
 	userID.subscribe(value => {
 		userIDValue = value;
 	})
@@ -40,7 +36,7 @@
 		},
 	};
 
-	function onChange(PK_FrageId, FK_AntwortID) {
+	function onChange(PK_FrageId: number, FK_AntwortID: number) {
 		$answers[PK_FrageId] = FK_AntwortID;
 	}
 
@@ -67,21 +63,21 @@
 		<h2>Es konnte kein aktives Quiz gefunden werden.</h2>
 	{:else}
 		<div id="stepper">
-			<Stepper on:complete={finishModal}>
+			<Stepper on:complete={finishModal} buttonBackLabel="← Zurück" buttonNextLabel="Nächste →" buttonCompleteLabel="Auswerten" stepTerm="Frage">
 				{#each $questions as q}
 					<Step>
 						<svelte:fragment slot="header">{q.Fragestellung}</svelte:fragment>
-						{#each q[0] as answer}
-							<div id="answer">
-								<!-- i mean it works -->
-								<input
-									type={getType(q)}
-									name={q.PK_FrageId} checked={$answers[q.PK_FrageId] === answer.FK_AntwortID} value={answer.FK_AntwortID} id={answer.FK_AntwortID} 
-									on:change={onChange(q.PK_FrageId, answer.FK_AntwortID)}
-								>
-								<label for={answer.FK_AntwortID}>{answer.Antwortmoeglichkeit}</label>
-							</div>
-						{/each}
+							{#each q[0] as answer}
+								<div id="answer">
+									<!-- i mean it works -->
+									<input
+										type={getType(q)}
+										name={q.PK_FrageId} checked={$answers[q.PK_FrageId] === answer.FK_AntwortID} value={answer.FK_AntwortID} id={answer.FK_AntwortID} 
+										on:change={onChange(q.PK_FrageId, answer.FK_AntwortID)}
+									>
+									<label for={answer.FK_AntwortID}>{answer.Antwortmoeglichkeit}</label>
+								</div>
+							{/each}
 					</Step>
 				{/each}
 			</Stepper>
@@ -99,7 +95,13 @@
 	}
 
 	#stepper {
+		margin-left: 20%;
+		margin-right: 20%;
 		min-width: 60%;
+	}
+
+	#stretcher {
+		padding-bottom: 20vh;
 	}
 
 	#answer {

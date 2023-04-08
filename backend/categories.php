@@ -1,9 +1,5 @@
 <?php
-    header('Access-Control-Allow-Origin: *');
-    header('Content-type: application/json');
-
-    $db = new PDO("mysql:host=localhost; dbname=quiz; charset=utf8", "root", "");
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+    include("./index.php");
 
     $sql = "SELECT DISTINCT KategorienName FROM frage JOIN kategorie k on k.PK_KategorieId = frage.FK_KategorieID";
     $stmt = $db->prepare($sql);

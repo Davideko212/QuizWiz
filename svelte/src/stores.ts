@@ -1,12 +1,12 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 //const storedQuestions = localStorage.getItem("questions");
-export const questions = writable([]);
-export const answers = writable({});
-export const lightmode = writable(true);
+export const questions: Writable<Array<Object>> = writable([]);
+export const answers: Writable<Object> = writable({});
+export const lightmode: Writable<boolean> = writable(true);
 // this is absolutely not secure but it works
 // 0 means no user is logged on
-export const userID = writable(0);
+export const userID: Writable<number> = writable(0);
 
 if (typeof localStorage != 'undefined') {
     const questionsStore = localStorage.getItem("questions");
