@@ -7,7 +7,7 @@
 	import '../app.postcss';
 
 	import { AppShell, AppBar, LightSwitch, storePopup, Toast, Modal, Avatar, popup, modalStore, toastStore } from '@skeletonlabs/skeleton';
-	import type { PopupSettings, ModalSettings } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
     import { lightmode, userID } from '../stores';

@@ -9,16 +9,14 @@
 	let categoriesSelected: Array<string> = [];
 	let amount = 5;
 	let diff = 5;
-	let target = "/";
-	let data;
+	let data: Array<Object>;
 
-	let questionsValue;
+	let questionsValue: Array<Object>;
 	questions.subscribe(value => {
 		questionsValue = value;
 	})
 
 	const toast: ToastSettings = {
-		// maybe change this text later
 		message: '⚠️ Wählen Sie eine Kategorie aus! ⚠️',
 	};
 
@@ -29,9 +27,8 @@
 		response: (r: boolean) => {
 			if (r) {
 				while (questionsValue.length != amount) {
-					let temp = randomProperty(data);
-					questionsValue.push(temp);
-					delete data.temp;
+					let index = data.length * Math.random();
+					questionsValue.push(data.splice(index, 1)[0]);
 				}
 
 				questions.set(questionsValue);
@@ -88,11 +85,6 @@
 		} else {
 			modalStore.trigger(startModal);
 		}
-	}
-
-	function randomProperty(obj: Object) {
-		let keys = Object.keys(obj);
-		return obj[keys[ keys.length * Math.random() << 0]];
 	}
 
 	function deleteQuiz() {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ConicGradient, dataTableHandler } from '@skeletonlabs/skeleton';
+	import { ConicGradient } from '@skeletonlabs/skeleton';
 	import type { ConicStop } from '@skeletonlabs/skeleton';
 	import { answers, questions } from '../../../stores';
     import { onMount } from 'svelte';
@@ -55,15 +55,15 @@
 			<p>Ergebnisse des Quizzes mit {amount} Fragen:</p>
 			<div id="entry">
 				<div id="color" style="background-color: rgba(102, 255, 102, 1);"></div>
-				<p>{data[0]} richtig ({(data[0]/amount)*100}%)</p>
+				<p>{data[0]} richtig ({((data[0]/amount)*100).toFixed(2)}%)</p>
 			</div>
 			<div id="entry">
 				<div id="color" style="background-color: rgba(255, 80, 80, 1);"></div>
-				<p>{data[1]} falsch ({(data[1]/amount)*100}%)</p>
+				<p>{data[1]} falsch ({((data[1]/amount)*100).toFixed(2)}%)</p>
 			</div>
 			<div id="entry">
 				<div id="color" style="background-color: rgba(179, 179, 179, 1);"></div>
-				<p>{data[2]} unbeantwortet ({(data[2]/amount)*100}%)</p>
+				<p>{data[2]} unbeantwortet ({((data[2]/amount)*100).toFixed(2)}%)</p>
 			</div>
 		</div>
 	</div>
