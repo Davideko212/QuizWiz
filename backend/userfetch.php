@@ -1,9 +1,6 @@
 <?php
     include("./index.php");
 
-    // reads out the parameter(s) passed through the fetch body
-    $json = file_get_contents('php://input');
-    $data = json_decode($json);
     $userID = $data->userIDValue;
 
     $sql = "SELECT Anmeldedatum, Benutzername, QuizCount FROM benutzer WHERE PK_BenutzerID = :id";

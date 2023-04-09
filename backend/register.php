@@ -1,9 +1,6 @@
 <?php
     include("./index.php");
 
-    // reads out the parameter(s) passed through the fetch body
-    $json = file_get_contents('php://input');
-    $data = json_decode($json);
     $user = $data->user;
     $password = $data->password;
     $date = $data->date;

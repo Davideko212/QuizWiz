@@ -1,16 +1,24 @@
-<script>
-    import Slider from '@smui/slider';
+<script lang="ts">
+    import { RangeSlider } from '@skeletonlabs/skeleton';
     import StarRating from 'svelte-star-rating';
 
-    export let value;
-    let diff = value/2;
+    export let value: number;
+    $: diff = value/2;
+
+    const config = {
+        emptyColor: 'hsl(240, 80%, 85%)',
+        fullColor: '#ff5900',
+        size: 32,
+    };
 </script>
 
 <main>
     <div id="container">
         <div id="slider">
-            <Slider bind:value min={1} max={10} />
-            <!-- TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
+            <StarRating rating={diff} {config} />
+            <div id="test">
+                <RangeSlider name="range-slider" bind:value min={1} max={10} step={1} />
+            </div>
         </div>
     </div>
 </main>
@@ -27,6 +35,15 @@
     #container {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        min-width: 50%;
+    }
+
+    #slider {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
     }
 </style>

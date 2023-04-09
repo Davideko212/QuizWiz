@@ -2,7 +2,8 @@
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import type { ModalSettings } from '@skeletonlabs/skeleton';
-	import { questions, answers, userID } from '../../stores';
+	import { questions, answers, userID, lightmode } from '../../stores';
+    import StarRating from 'svelte-star-rating';
 
 	$questions.forEach(question => {
 		if ($answers[question.PK_FrageId] == undefined) {
@@ -54,6 +55,12 @@
 	function finishModal() {
 		modalStore.trigger(modal);
 	}
+
+	const config = {
+        emptyColor: "hsl(240, 80%, 85%)",
+		fullColor: "#ff5900",
+		size: 20
+    };
 </script>
 
 <main>
@@ -67,17 +74,25 @@
 				{#each $questions as q}
 					<Step>
 						<svelte:fragment slot="header">{q.Fragestellung}</svelte:fragment>
-							{#each q[0] as answer}
-								<div id="answer">
-									<!-- i mean it works -->
-									<input
-										type={getType(q)}
-										name={q.PK_FrageId} checked={$answers[q.PK_FrageId] === answer.FK_AntwortID} value={answer.FK_AntwortID} id={answer.FK_AntwortID} 
-										on:change={onChange(q.PK_FrageId, answer.FK_AntwortID)}
-									>
-									<label for={answer.FK_AntwortID}>{answer.Antwortmoeglichkeit}</label>
-								</div>
-							{/each}
+						<div id="container">
+							<div id="answers">
+								{#each q[0] as answer}
+									<div id="answer">
+										<!-- i mean it works -->
+										<input
+											type={getType(q)}
+											name={q.PK_FrageId} checked={$answers[q.PK_FrageId] === answer.FK_AntwortID} value={answer.FK_AntwortID} id={answer.FK_AntwortID} 
+											on:change={onChange(q.PK_FrageId, answer.FK_AntwortID)}
+										>
+										<label for={answer.FK_AntwortID}>{answer.Antwortmoeglichkeit}</label>
+									</div>
+								{/each}
+							</div>
+							<div id="info">
+								<i>{q.KategorienName}</i>
+								<StarRating rating={q.Schwierigkeit/2} {config}/>
+							</div>
+						</div>
 					</Step>
 				{/each}
 			</Stepper>
@@ -107,6 +122,23 @@
 	#answer {
 		display: flex;
 		flex-direction: row;
-		gap: 10px;
+		gap: 12px;
+		font-size: large;
+	}
+
+	#container {
+		display: flex;
+		flex-direction: row;
+	}
+
+	#answers {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+	}
+
+	#info {
+		margin-left: auto;
+		text-align: end;
 	}
 </style>

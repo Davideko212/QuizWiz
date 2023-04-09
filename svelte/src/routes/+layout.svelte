@@ -61,7 +61,7 @@
 							initials="👤"
 						/>
 					</div>
-					<div class="card p-4 w-72 shadow-xl" data-popup="examplePopup">
+					<div class="card p-4 w-80 shadow-xl" data-popup="examplePopup">
 						<ProfilePopup />
 					</div>
 				{/if}

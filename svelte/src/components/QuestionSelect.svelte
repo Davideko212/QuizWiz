@@ -1,5 +1,5 @@
 <script>
-    import Slider from '@smui/slider';
+    import { RangeSlider } from '@skeletonlabs/skeleton';
     import StarSlider from "../components/StarSlider.svelte";
 
     export let amount;
@@ -12,8 +12,12 @@
             <h2>Wählen Sie die Anzahl an Fragen aus:</h2>
         </div>
         <div id="slider">
-            Anzahl: {amount}
-            <Slider bind:value={amount} min={2} max={10} />
+            <RangeSlider name="range-slider" bind:value={amount} min={2} max={10} step={1} ticked>
+                <div class="flex justify-between items-center">
+                    <div class="font-bold">Anzahl Fragen</div>
+                    <div class="text-xs">{amount} / 10</div>
+                </div>
+            </RangeSlider>
         </div>
     </div>
     <div id="container">
@@ -21,7 +25,7 @@
             <h2>Wählen Sie die max. Schwierigkeit der Fragen aus:</h2>
         </div>
         <div id="star">
-            Schwierigkeit: {diff}
+            Max. Schwierigkeit: {diff}
             <StarSlider bind:value={diff} />
         </div>
     </div>
@@ -38,6 +42,17 @@
 	}
 
     #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    #slider, #star {
+        min-width: 50%;
+    }
+
+    #star {
         display: flex;
         flex-direction: column;
         align-items: center;
