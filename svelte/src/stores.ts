@@ -1,6 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
 
-//const storedQuestions = localStorage.getItem("questions");
 export const questions: Writable<Array<Object>> = writable([]);
 export const answers: Writable<Object> = writable({});
 export const lightmode: Writable<boolean> = writable(true);

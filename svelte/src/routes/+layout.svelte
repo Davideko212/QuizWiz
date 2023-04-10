@@ -1,17 +1,14 @@
 <script lang='ts'>
-	// The ordering of these imports is critical to your app working properly
 	import '@skeletonlabs/skeleton/themes/theme-rocket.css';
-	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
 	import '@skeletonlabs/skeleton/styles/all.css';
-	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 
-	import { AppShell, AppBar, LightSwitch, storePopup, Toast, Modal, Avatar, popup, modalStore, toastStore } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, LightSwitch, storePopup, Toast, Modal, Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
     import { lightmode, userID } from '../stores';
     import ProfilePopup from '../components/ProfilePopup.svelte';
+
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	let examplePopup: PopupSettings = {
 		// Set the event as: click | hover | hover-click
@@ -25,6 +22,12 @@
 		lightmode.set(!$lightmode);
 	}
 </script>
+
+<style>
+	#heightPad {
+		min-height: 40px;
+	}
+</style>
 
 <!-- App Shell -->
 <AppShell>
@@ -75,9 +78,3 @@
 <!-- defining global (singleton) components-->
 <Toast />
 <Modal />
-
-<style>
-	#heightPad {
-		min-height: 40px;
-	}
-</style>

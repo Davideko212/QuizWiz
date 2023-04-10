@@ -41,6 +41,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 5px;
 	}
 
     input {
@@ -57,5 +58,6 @@
         flex-direction: row;
         gap: 10px;
         align-items: center;
+        font-size: large;
     }
 </style>

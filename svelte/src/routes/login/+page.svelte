@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { toastStore } from '@skeletonlabs/skeleton';
-	import type { ToastSettings } from '@skeletonlabs/skeleton';
+	import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { userID } from '../../stores';
 
 	let user: string;

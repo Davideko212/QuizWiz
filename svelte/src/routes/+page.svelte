@@ -1,14 +1,13 @@
 <script lang="ts">
-    import CategorySelect from "../components/CategorySelect.svelte";
-    import QuestionSelect from "../components/QuestionSelect.svelte";
-	import { modalStore, toastStore } from '@skeletonlabs/skeleton';
-	import type { ToastSettings, ModalSettings } from '@skeletonlabs/skeleton';
+	import { modalStore, toastStore, type ToastSettings, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { questions, lightmode, answers } from '../stores';
+	import CategorySelect from "../components/CategorySelect.svelte";
+    import QuestionSelect from "../components/QuestionSelect.svelte";
 
 	const endpoint = "http://localhost/QuizWiz/backend/questions.php";
 	let categoriesSelected: Array<string> = [];
-	let amount = 5;
-	let diff = 5;
+	let amount: number = 5;
+	let diff: number = 5;
 	let data: Array<Object>;
 
 	let questionsValue: Array<Object>;
@@ -27,8 +26,10 @@
 		response: (r: boolean) => {
 			if (r) {
 				while (questionsValue.length != amount) {
-					let index = data.length * Math.random();
-					questionsValue.push(data.splice(index, 1)[0]);
+					let index: number = data.length * Math.random();
+					let temp: any = data.splice(index, 1)[0];
+					temp[0] = shuffle(temp[0]);
+					questionsValue.push(temp);
 				}
 
 				questions.set(questionsValue);
@@ -79,7 +80,7 @@
 			let orig = partialModal.body;
 			partialModal.body += (data.length + "/" + amount + " Fragen gefunden.").bold();
 			modalStore.trigger(partialModal);
-			setTimeout(function(){
+			setTimeout(function() {
 				partialModal.body = orig;
 			}, 100); 
 		} else {
@@ -90,29 +91,47 @@
 	function deleteQuiz() {
 		modalStore.trigger(deleteModal);
 	}
+
+	function shuffle(array: Array<Object>) {
+		let currentIndex = array.length,  randomIndex;
+
+		// While there remain elements to shuffle.
+		while (currentIndex != 0) {
+
+			// Pick a remaining element.
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
+
+			// And swap it with the current element.
+			[array[currentIndex], array[randomIndex]] = [
+			array[randomIndex], array[currentIndex]];
+		}
+
+		return array;
+	}
 </script>
 
 <main>
-		{#if $lightmode}
-			<img src="http://localhost/QuizWiz/svelte/build/QuizWiz.png">
-		{:else}
-			<img src="http://localhost/QuizWiz/svelte/build/QuizWiz_dark.png">
-		{/if}
-		{#if questionsValue.length > 0}
-			<h3>Es wurde ein bereits aktives Quiz auf Ihrem Gerät festgestellt:</h3>
-			<a class="btn variant-filled" href="http://localhost/QuizWiz/svelte/build/quiz.html">
-				Zurück zum Quiz
-			</a>
-			<button class="btn variant-filled" on:click={deleteQuiz}>
-				Quiz abbrechen
-			</button>
-		{:else}
-			<CategorySelect bind:categoriesSelected={categoriesSelected}/>
-			<QuestionSelect bind:amount={amount} bind:diff={diff}/>
-			<button class="btn variant-filled" on:click={fetchQuestions}>
-				Quiz starten
-			</button>
-		{/if}
+	{#if $lightmode}
+		<img src="http://localhost/QuizWiz/svelte/build/QuizWiz.png">
+	{:else}
+		<img src="http://localhost/QuizWiz/svelte/build/QuizWiz_dark.png">
+	{/if}
+	{#if questionsValue.length > 0}
+		<h3>Es wurde ein bereits aktives Quiz auf Ihrem Gerät festgestellt:</h3>
+		<a class="btn variant-filled" href="http://localhost/QuizWiz/svelte/build/quiz.html">
+			Zurück zum Quiz
+		</a>
+		<button class="btn variant-filled" on:click={deleteQuiz}>
+			Quiz abbrechen
+		</button>
+	{:else}
+		<CategorySelect bind:categoriesSelected={categoriesSelected}/>
+		<QuestionSelect bind:amount={amount} bind:diff={diff}/>
+		<button class="btn variant-filled" on:click={fetchQuestions}>
+			Quiz starten
+		</button>
+	{/if}
 </main>
 
 <style>
