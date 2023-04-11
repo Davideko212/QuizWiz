@@ -24,15 +24,15 @@ Laden Sie den QuizWiz Ordner herunter und platzieren Sie ihn in den `htdocs` Ord
 Im Abgabeordner findet sich auch ein SQL-Skript namens `quizDB.sql`. Dieses Skript führen Sie am besten zum Beispiel mit einem Programm wie DataGrip aus, um die für diese Applikation benötigte SQL-Datenbank bei Ihnen lokal aufzusetzen.
 
 ### Nutzung
-Besuchen Sie im Web-Browser ihrer Wahl die Seite http://localhost/QuizWiz/svelte/build/. Bevor Sie mit ihrem ersten Quiz loslegen, können Sie sich anmelden/registrieren um später Zugriff auf diverse Statistiken zu erhalten.
+Besuchen Sie im Web-Browser ihrer Wahl die Seite http://localhost/QuizWiz/svelte/build/. Bevor Sie mit Ihrem ersten Quiz loslegen, können Sie sich anmelden/registrieren um später Zugriff auf diverse Statistiken zu erhalten.
 
 **ACHTUNG:** falls Sie nicht unter der oben angegebenen URL auf QuizWiz zugreifen können, ersetzen Sie ihre derzeitige `httpd.conf` Datei mit der im Abgabeordner mitgelieferten Datei.
 
-Sobald Sie bereit sind, mit ihrem ersten Quiz loszulegen, können Sie auf der Titelseite ihre gewünschten Quiz-Einstellungen treffen und zum Starten des Quiz auf den Button "Quiz starten" drücken.
+Sobald Sie bereit sind, mit Ihrem ersten Quiz loszulegen, können Sie auf der Titelseite ihre gewünschten Quiz-Einstellungen treffen und zum Starten des Quiz auf den Button "Quiz starten" drücken.
 
 Nachdem das Quiz gestartet worden ist, werden Sie auf eine andere Seite weitergeleitet, wo jeweils eine Frage des Quiz mit dessen Antwortmöglichkeiten angezeigt wird. Um zwischen den einzelnen Frage zu navigieren, nutzen Sie die zwei Buttons (jeweils "Zurück" und "Nächste") unter der Fragestellung. Bei der letzten Frage wird der "Nächste" Button durch "Auswerten" ersetzt. Mit diesem können Sie das Quiz beenden und eine Auswertung erhalten.
 
-Auf der Auswertungsseite wird Ihnen ein Diagramm angezeigt, welches veranschaulicht, wie viele Fragen des Quiz Sie richtig, falsch oder unbeantwortet gelassen haben. Mit dem Button "Zurück zum Hauptmenü" können sie zur Titelseite zurückkehren, wo Sie ein weiteres Quiz starten können.
+Auf der Auswertungsseite wird Ihnen ein Diagramm angezeigt, welches veranschaulicht, wie viele Fragen des Quiz Sie richtig, falsch oder unbeantwortet gelassen haben. Mit dem Button "Zurück zum Hauptmenü" können Sie zur Titelseite zurückkehren, wo Sie ein weiteres Quiz starten können.
 
 **ACHTUNG:** falls während der Nutzung von QuizWiz ein Fehler auftreten sollte, probieren Sie die Seite neu zu laden.
 
@@ -40,7 +40,7 @@ Auf der Auswertungsseite wird Ihnen ein Diagramm angezeigt, welches veranschauli
 Es wurden alle geforderten Grundfeatures in dieser Applikation implementiert, bis auf das Anzeigen der richtigen Antworten bei der Quiz-Auswertung. Bei jedem ordentlichen Quiz mit Wiederspielbarkeit werden bei der Auswertung die richtigen Antworten nicht angezeigt, einfach weil sonst der Nutzer sich die richtigen Antworten aufschreiben/merken könnte und direkt beim nächsten Versuch alles richtig haben kann. Das wollte ich nicht, und hab dies deswegen nicht implementiert.
 
 ### Erweiterungen
-Es wurden folgende Erweiterungen implementiert:
+Es wurden folgende Erweiterungen (aus der Angabe) implementiert:
 <ul>
     <li>Das Quiz geht über mehrere Seiten
     <li>Zwischen den Seiten kann vor und zurück geblättert werden und die Antworten können geändert werden
@@ -50,3 +50,4 @@ Es wurden folgende Erweiterungen implementiert:
     <li>Die Fragen werden pro Durchlauf in einer anderen (zufälligen) Reihenfolge angeboten
     <li>Die Antwortmöglichkeiten werden für jeden Durchlauf in einer anderen (zufälligen) Reihenfolge angeboten
 </ul>
+Sonst wurde noch ein System zum Registrieren/Anmelden von Benutzern implementiert, womit man sich unter seinem "Benutzerprofil" gewisse Statistiken zu seinen vergangegen Quizzes anschauen kann. Falls gewisse Werte beim Benutzerprofil veraltet scheinen, laden Sie einfach die Seite neu.
