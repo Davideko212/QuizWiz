@@ -137,12 +137,12 @@
 
 <style>
 	main {
-		padding: 1em;
+		padding: 5em;
 		margin: 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
-		position: absolute;
+		position: relative;
 		top: 50%;
 		left: 50%;
 		-ms-transform: translate(-50%, -50%);
@@ -155,6 +155,6 @@
 	}
 
 	img {
-		width: 60%;
+		width: 40em;
 	}
 </style>
