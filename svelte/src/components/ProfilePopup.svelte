@@ -6,9 +6,10 @@
 
     const endpoint = "http://localhost/QuizWiz/backend/userfetch.php";
 
-    let date;
-    let name;
-    let count;
+    let date: string;
+    let name: string;
+    let count: number;
+	let accuracy: number;
     onMount(async () => {
 		const res = await fetch(endpoint, {
 			method: 'POST',
@@ -22,6 +23,7 @@
         date = data["Anmeldedatum"];
         name = data["Benutzername"];
         count = data["QuizCount"];
+		accuracy = data["AccuracySum"] / 100;
 	})
 
     let userIDValue: number;
@@ -56,6 +58,9 @@
 	<div id="text">
 		<p>Registriert seit: {date}</p>
 		<p>Anzahl bestandener Quizzes: {count}</p>
+		{#if count != 0}
+			<p>Durchschnittsgenauigkeit: {(accuracy/count).toFixed(2)}%</p>
+		{/if}
 	</div>
 	<button type="button" class="btn btn-sm variant-ghost-surface" on:click={logoutModal}>Abmelden</button>
 </main>

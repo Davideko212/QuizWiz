@@ -1,6 +1,7 @@
 <script lang="ts">
     import { ConicGradient, type ConicStop } from '@skeletonlabs/skeleton';
     import { questions } from '../stores';
+    import StarRating from 'svelte-star-rating';
 
     export let data: Array<number> = [];
 
@@ -18,10 +19,16 @@
 	averageDiff /= amount;
 
     conicStops = [
-			{ color: 'rgba(102, 255, 102, 1)', start: 0, end: (data[0]/amount)*100 },
-			{ color: 'rgba(255, 80, 80, 1)', start: (data[0]/amount)*100, end: ((data[0]/amount)*100 + (data[1]/amount)*100) },
-			{ color: 'rgba(179, 179, 179, 1)', start: ((data[0]/amount)*100 + (data[1]/amount)*100), end: ((data[0]/amount)*100 + (data[1]/amount)*100 + (data[2]/amount)*100) }
-		];
+		{ color: 'rgba(102, 255, 102, 1)', start: 0, end: (data[0]/amount)*100 },
+		{ color: 'rgba(255, 80, 80, 1)', start: (data[0]/amount)*100, end: ((data[0]/amount)*100 + (data[1]/amount)*100) },
+		{ color: 'rgba(179, 179, 179, 1)', start: ((data[0]/amount)*100 + (data[1]/amount)*100), end: ((data[0]/amount)*100 + (data[1]/amount)*100 + (data[2]/amount)*100) }
+	];
+
+    const config = {
+        emptyColor: "hsl(240, 80%, 85%)",
+		fullColor: "#ff5900",
+		size: 32
+    };
 </script>
 
 <style>
@@ -42,16 +49,27 @@
 		text-align: left;
 	}
 
+    #text {
+        font-size: large;
+    }
+
 	#color {
 		aspect-ratio: 1/1;
-		width: 10px;
-		height: 10px;
+		width: 15px;
+		height: 15px;
 	}
+
+    #info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 </style>
 
 <div id="container">
     <div id="chart">
-        <ConicGradient stops={conicStops}></ConicGradient>
+        <ConicGradient stops={conicStops} width="w-48" />
     </div>
     <div id="text">
         <p>Ergebnisse des Quizzes mit {amount} Fragen:</p>
@@ -71,4 +89,5 @@
 </div>
 <div id="info">
     <p>Durchschnittliche Schwierigkeit der Fragen: {(averageDiff).toFixed(2)} / 10</p>
+    <StarRating rating={averageDiff/2} {config} />
 </div>

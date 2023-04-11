@@ -14,7 +14,7 @@
     if ($stmt->rowCount() > 0) {
         echo json_encode(-1);
     } else {
-        $sql = "INSERT INTO Benutzer (Benutzername, Passwort, Anmeldedatum, QuizCount) VALUES (:u, :p, :d, 0)";
+        $sql = "INSERT INTO Benutzer (Benutzername, Passwort, Anmeldedatum, QuizCount, AccuracySum) VALUES (:u, :p, :d, 0, 0)";
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':u', $user, PDO::PARAM_STR);
         $stmt->bindValue(':p', $hashed_password, PDO::PARAM_STR);

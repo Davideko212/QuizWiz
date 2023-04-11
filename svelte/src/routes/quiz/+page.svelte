@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Stepper, modalStore, type ModalSettings } from '@skeletonlabs/skeleton';
-	import { questions, answers, userID } from '../../stores';
+	import { questions, answers } from '../../stores';
 	import QuestionStep from "../../components/QuestionStep.svelte";
 
 	$questions.forEach(question => {
@@ -9,27 +10,18 @@
 		}
 	});
 
-	const endpoint = "http://localhost/QuizWiz/backend/quizcount.php";
-	let userIDValue: number;
-	userID.subscribe(value => {
-		userIDValue = value;
-	})
+	const endpoint = "http://localhost/QuizWiz/backend/reload.php";
 
 	const modal: ModalSettings = {
 		type: 'confirm',
 		title: 'Quiz beenden',
 		body: 'Wollen Sie das Quiz beenden und Ihre Antworten abschicken?',
 		response: async(r: boolean) => {
-			if (r) {
-				if (userIDValue != 0) {
-					await fetch(endpoint, {
-						method: 'POST',
-						body: JSON.stringify({
-							userIDValue
-						})
-					});
-				}
-				
+			if (r) {	
+				await fetch(endpoint, {
+					method: 'GET'
+				});
+
 				window.location.href = "./quiz/score.html";
 			}
 		},
@@ -38,25 +30,29 @@
 	function finishModal() {
 		modalStore.trigger(modal);
 	}
+
+	onMount(async () => {
+		console.log("meow");
+	})
 </script>
 
 <main>
 	<h1>QUIZ</h1>
 
-	{#if $questions.length === 0}
-		<h2>Es konnte kein aktives Quiz gefunden werden.</h2>
-		<a class="btn variant-filled" href="./">
-			Zurück zum Hauptmenü
-		</a>
-	{:else}
-		<div id="stepper">
-			<Stepper on:complete={finishModal} buttonBackLabel="← Zurück" buttonNextLabel="Nächste →" buttonCompleteLabel="Auswerten" stepTerm="Frage">
-				{#each $questions as q}
-					<QuestionStep question={q} />
-				{/each}
-			</Stepper>
-		</div>
-	{/if}
+		{#if $questions.length === 0}
+			<h2>Es konnte kein aktives Quiz gefunden werden.</h2>
+			<a class="btn variant-filled" href="./">
+				Zurück zum Hauptmenü
+			</a>
+		{:else}
+			<div id="stepper">
+				<Stepper on:complete={finishModal} buttonBackLabel="← Zurück" buttonNextLabel="Nächste →" buttonCompleteLabel="Auswerten" stepTerm="Frage">
+					{#each $questions as q}
+						<QuestionStep question={q} />
+					{/each}
+				</Stepper>
+			</div>
+		{/if}
 </main>
 
 <style>

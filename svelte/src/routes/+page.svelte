@@ -125,6 +125,7 @@
 		<button class="btn variant-filled" on:click={deleteQuiz}>
 			Quiz abbrechen
 		</button>
+		<h3>Falls das Quiz bereits abgeschlossen worden ist aber diese Seite trotzdem erscheint, laden Sie diese einmal neu.</h3>
 	{:else}
 		<CategorySelect bind:categoriesSelected={categoriesSelected}/>
 		<QuestionSelect bind:amount={amount} bind:diff={diff}/>
@@ -147,6 +148,10 @@
 		-ms-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 		gap: 15px;
+	}
+
+	h3 {
+		text-align: center;
 	}
 
 	img {

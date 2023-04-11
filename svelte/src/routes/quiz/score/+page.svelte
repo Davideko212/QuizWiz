@@ -1,13 +1,19 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { answers, questions } from '../../../stores';
+	import { answers, questions, userID } from '../../../stores';
 	import ScoreDisplay from '../../../components/ScoreDisplay.svelte';
 
-	const endpoint = "http://localhost/QuizWiz/backend/score.php";
+	const scoreEndpoint = "http://localhost/QuizWiz/backend/score.php";
+	const countEndpoint = "http://localhost/QuizWiz/backend/quizcount.php";
 
 	let answersValue: Object;
 	answers.subscribe(value => {
 		answersValue = value;
+	})
+
+	let userIDValue: number;
+	userID.subscribe(value => {
+		userIDValue = value;
 	})
 
 	let data: Array<number> = [];
@@ -16,7 +22,7 @@
 			return;
 		}
 
-		const res = await fetch(endpoint, {
+		const res = await fetch(scoreEndpoint, {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
@@ -27,6 +33,17 @@
 		});
 
 		data = await res.json();
+		let accuracy = (data[0] / (data[0] + data[1] + data[2]))*100;
+
+		if (userIDValue != 0) {
+			await fetch(countEndpoint, {
+				method: 'POST',
+				body: JSON.stringify({
+					userIDValue,
+					accuracy
+				})
+			});
+		}
 
 		setTimeout(function() {
 			answers.set({});

@@ -25,7 +25,7 @@
             <h2>Wählen Sie die max. Schwierigkeit der Fragen aus:</h2>
         </div>
         <div id="star">
-            Max. Schwierigkeit: {diff}
+            Max. Schwierigkeit: {diff} / 10
             <StarSlider bind:value={diff} />
         </div>
     </div>

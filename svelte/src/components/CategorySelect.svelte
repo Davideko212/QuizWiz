@@ -1,10 +1,10 @@
-<script>
-    export let categoriesSelected;
-
+<script lang="ts">
     import { onMount } from 'svelte';
 
+    export let categoriesSelected: Array<string>;
+
 	const endpoint = "http://localhost/QuizWiz/backend/categories.php";
-    let categories = [];
+    let categories: Array<string> = [];
 
     onMount(async () => {
 		const res = await fetch(endpoint, {
@@ -13,7 +13,7 @@
 
 		const data = await res.json();
 		
-		Object.keys(data).forEach(function (key){
+		Object.keys(data).forEach(function(key) {
 			categories.push(data[key]);
 		});
 

@@ -82,10 +82,10 @@
 			<label for="passwordConfirm">Passwort bestätigen:</label>
 			<input type="password" id="passwordConfirm" placeholder="Passwort bestätigen" bind:value={passwordConfirm} />
 		{/if}
-		<button class="btn variant-filled-primary" on:click={login}>Submit</button>
+		<button class="btn variant-filled" on:click={login}>Submit</button>
 	</div>
 	<div id="info">
-		<button class="btn variant-filled-primary" on:click={switchRegister}>Registrieren</button>
+		<button class="btn variant-filled" on:click={switchRegister}>Registrieren</button>
 	</div>
 </main>
 
